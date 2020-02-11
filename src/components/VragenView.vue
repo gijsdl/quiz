@@ -1,10 +1,18 @@
 <template>
     <div id="vragen">
         <div id="vraag">{{vraag.question}}</div>
-        <button id="btn1" @click="selectAntwoord" class="button"><span id="option1">{{vraag.option1}}</span></button>
-        <button id="btn2" class="button"><span id="option2">{{vraag.option2}}</span></button>
-        <button id="btn3" class="button"><span id="option3">{{vraag.option3}}</span></button>
-        <button id="btn4" class="button"><span id="option4">{{vraag.option4}}</span></button>
+        <button id="btn1" @click="selectAntwoord(1)" class="button"
+                v-bind:class="{'selectedButton': vraag.selected === 1 }"><span id="option1">{{vraag.option1}}</span>
+        </button>
+        <button id="btn2" @click="selectAntwoord(2)" class="button"
+                v-bind:class="{'selectedButton': vraag.selected === 2 }"><span id="option2">{{vraag.option2}}</span>
+        </button>
+        <button id="btn3" @click="selectAntwoord(3)" class="button"
+                v-bind:class="{'selectedButton': vraag.selected === 3 }"><span id="option3">{{vraag.option3}}</span>
+        </button>
+        <button id="btn4" @click="selectAntwoord(4)" class="button"
+                v-bind:class="{'selectedButton': vraag.selected === 4 }"><span id="option4">{{vraag.option4}}</span>
+        </button>
     </div>
 </template>
 
@@ -28,12 +36,13 @@
                 return {
                     ...this.vragenData.vragen[this.vraagNummer]
                 }
-            }
+            },
+
         },
         methods: {
-            selectAntwoord(option){
+            selectAntwoord(option) {
                 this.vragenData.vragen[this.vraagNummer].selected = option;
-            }
+            },
         }
     }
 </script>
@@ -98,5 +107,9 @@
     .button:hover {
         background-color: #99ceff;
         cursor: pointer;
+    }
+
+    .selectedButton {
+        background-color: #99ceff;
     }
 </style>

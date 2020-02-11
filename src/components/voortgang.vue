@@ -1,10 +1,7 @@
 <template>
     <div id="voortgang">
         <div v-for="(vraag) in vragenData.vragen" :key="vraag.id">
-            <button class="nos" v-if="checkVraagNummer(vraag.id)" style="border: 3px solid orange;">
-                {{vraag.id}}
-            </button>
-            <button class="nos" v-else>
+            <button class="nos" v-bind:class="{'vraagNummer': checkVraagNummer(vraag.id), 'geantwoord':  vraag.selected !== 0}" >
                 {{vraag.id}}
             </button>
         </div>
@@ -30,11 +27,7 @@
         },
         methods: {
             checkVraagNummer(nummer){
-                if(this.vragenData.vragen[this.vraagId].id === nummer){
-                    return true
-                }else{
-                    return false
-                }
+                return this.vragenData.vragen[this.vraagId].id === nummer;
             },
         },
     }
@@ -59,5 +52,11 @@
         font-weight: bolder;
         font-size: 22px;
         border: 1.5px solid lightskyblue;
+    }
+    .vraagNummer{
+        border: 3px solid orange;
+    }
+    .geantwoord{
+        background-color: green;
     }
 </style>
