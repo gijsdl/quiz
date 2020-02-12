@@ -1,6 +1,6 @@
 <template>
-    <div id="voortgang">
-        <table>
+    <b-row>
+        <table class="table">
             <thead>
             <tr>
                 <th>nummer</th>
@@ -12,7 +12,7 @@
             </thead>
             <tbody>
             <tr v-for="vraag in vragenData.vragen" :key="vraag.id"
-                v-bind:class="{'correct': checkCorrectCollor(vraag.selected, vraag.answer),'incorrect': !checkCorrectCollor(vraag.selected, vraag.answer)}">
+                v-bind:class="{'bg-success': checkCorrectCollor(vraag.selected, vraag.answer),'bg-danger': !checkCorrectCollor(vraag.selected, vraag.answer)}">
                 <td>{{vraag.id}}</td>
                 <td>{{vraag.question}}</td>
                 <td>{{getAntwoord(vraag,vraag.selected)}}</td>
@@ -21,7 +21,7 @@
             </tr>
             </tbody>
         </table>
-    </div>
+    </b-row>
 </template>
 
 <script>
@@ -69,28 +69,5 @@
 </script>
 
 <style scoped>
-    #voortgang {
-        grid-row: 1;
-        grid-column: 1 / 5;
-        margin: 20px auto;
-        padding: 0 20px 0 20px;
-        justify-content: space-around;
-    }
 
-    table {
-        width: 100%;
-        border: 1px solid black;
-    }
-
-    td, th {
-        border: 1px solid black;
-    }
-
-    .correct {
-        background-color: green;
-    }
-
-    .incorrect {
-        background-color: red;
-    }
 </style>

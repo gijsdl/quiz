@@ -2,22 +2,30 @@
     <div id="app">
         <div class="quiz">
             <header>
-                <h1>HTML quiz</h1>
+                <h1 class="bg-info text-center p-4 rounded mt-2">HTML quiz</h1>
             </header>
             <Voortgang :vraag-id="vraagNummer" @naarVraag="naarVraag($event)"/>
-            <hr>
-            <div id="content" :style="isIngeleverd ? 'grid-template-rows: 180px 100px 100px' : 'grid-template-rows: 180px 100px'">
+            <hr class="border">
+            <b-container>
                 <uitslag v-if="isIngeleverd"/>
                 <vragen-view v-if="!isIngeleverd" :vraag-nummer="vraagNummer"/>
-                <button id="volgende" v-if="(selectedVraag < 9 && !isIngeleverd)" @click="volgendeVraag(1)"
-                        class="navigatie">Volgende Vraag
-                </button>
-                <button @click="inleveren" id="inleveren" v-if="allesBeantwoord" class="navigatie" :style="isIngeleverd ? 'grid-row:3': 'grid-row:2'">{{inleverText}}
-                </button>
-                <button id="vorige" v-if="(selectedVraag > 0 && !isIngeleverd)" @click="volgendeVraag(-1)"
-                        class="navigatie">Vorige Vraag
-                </button>
-            </div>
+                <b-row class="mt-3">
+                    <b-col class="text-center">
+                        <b-button pill variant="primary" v-if="(selectedVraag > 0 && !isIngeleverd)"
+                                  @click="volgendeVraag(-1)">Vorige Vraag
+                        </b-button>
+                    </b-col>
+                    <b-col class="text-center">
+                        <b-button pill variant="primary" @click="inleveren" v-if="allesBeantwoord">{{inleverText}}
+                        </b-button>
+                    </b-col>
+                    <b-col class="text-center">
+                        <b-button pill variant="primary" v-if="(selectedVraag < 9 && !isIngeleverd)"
+                                  @click="volgendeVraag(1)">Volgende Vraag
+                        </b-button>
+                    </b-col>
+                </b-row>
+            </b-container>
         </div>
     </div>
 </template>
@@ -113,84 +121,7 @@
         padding: 2px 50px 50px 50px;
     }
 
-    header > h1 {
-        text-align: center;
-        font-size: 60px;
-        background-color: lightskyblue;
-        color: #001a33;
-        border-radius: 40px;
-        margin: 20px 10px 20px 10px;
-        padding: 2px 0px;
-    }
 
-    hr {
-        border: 2px solid #8c8c8c;
-    }
-
-    #content {
-        margin-top: 20px;
-        padding-left: 20px;
-        display: grid;
-        grid-template-columns: 33.3% 33.3% 33.3%;
-        grid-template-rows: 180px 100px 100px;
-    }
-
-    #volgende {
-        grid-row: 2;
-        grid-column: 3;
-        justify-self: center;
-    }
-
-    #vorige {
-        grid-row: 2;
-        grid-column: 1;
-        justify-self: center;
-    }
-
-    #inleveren {
-        grid-row: 2;
-        grid-column: 2;
-        justify-self: center;
-    }
-
-    .navigatie {
-        background-color: #595959;
-        color: white;
-        width: 230px;
-        padding: 7px;
-        border-radius: 50px;
-        font-size: 28px;
-        font-weight: 900;
-        font-family: serif;
-        margin: 25px 0px 25px 10px;
-        border: 1px solid grey;
-        text-align: center;
-        box-shadow: 2px 2px 0px 0px rgba(191, 191, 191, 0.5);
-    }
-
-    .button span {
-        text-align: center;
-        font-size: 20px;
-        padding: 10px;
-        font-weight: bold;
-        color: #001a33;
-    }
-
-
-    #vorige:hover {
-        cursor: pointer;
-        background-color: #808080;
-    }
-
-    #volgende:hover {
-        cursor: pointer;
-        background-color: #808080;
-    }
-
-    #inleveren:hover {
-        cursor: pointer;
-        background-color: #808080;
-    }
 
 
     html {
