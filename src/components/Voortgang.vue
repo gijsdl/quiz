@@ -1,7 +1,8 @@
 <template>
     <div id="voortgang">
         <div v-for="(vraag) in vragenData.vragen" :key="vraag.id">
-            <button class="nos" v-bind:class="{'vraagNummer': checkVraagNummer(vraag.id), 'geantwoord':  vraag.selected !== 0}" >
+            <button @click="naarVraag(vraag.id)" class="nos"
+                    v-bind:class="{'vraagNummer': checkVraagNummer(vraag.id), 'geantwoord':  vraag.selected !== 0}">
                 {{vraag.id}}
             </button>
         </div>
@@ -10,10 +11,11 @@
 
 <script>
     import vragenData from "../data/Vragen";
+
     export default {
-        name: "voortgang",
-        data(){
-            return{
+        name: "Voortgang",
+        data() {
+            return {
                 vragenData,
             }
         },
@@ -21,14 +23,17 @@
             vraagId: {
                 type: Number,
             },
-            vragen:{
+            vragen: {
                 type: JSON,
             },
         },
         methods: {
-            checkVraagNummer(nummer){
+            checkVraagNummer(nummer) {
                 return this.vragenData.vragen[this.vraagId].id === nummer;
             },
+            naarVraag(vraagNummer) {
+                this.$emit('naarVraag', (vraagNummer - 1))
+            }
         },
     }
 </script>
@@ -53,10 +58,12 @@
         font-size: 22px;
         border: 1.5px solid lightskyblue;
     }
-    .vraagNummer{
+
+    .vraagNummer {
         border: 3px solid orange;
     }
-    .geantwoord{
+
+    .geantwoord {
         background-color: green;
     }
 </style>

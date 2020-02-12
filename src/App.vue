@@ -4,49 +4,84 @@
             <header>
                 <h1>HTML quiz</h1>
             </header>
-            <voortgang :vraag-id="vraagNummer"/>
+            <Voortgang :vraag-id="vraagNummer" @naarVraag="naarVraag($event)"/>
             <hr>
             <div id="content">
-                <vragen-view :vraag-nummer="vraagNummer"/>
-                <button id="volgende" @click="volgendeVraag(1)" class="navigatie">Volgende Vraag</button>
-                <button id="inleveren" class="navigatie">Inleveren</button>
-                <button id="vorige" @click="volgendeVraag(-1)" class="navigatie">Vorige Vraag</button>
+                <uitslag v-if="isIngeleverd"/>
+                <vragen-view v-if="!isIngeleverd" :vraag-nummer="vraagNummer"/>
+                <button id="volgende" v-if="(selectedVraag < 9 && !isIngeleverd)" @click="volgendeVraag(1)"
+                        class="navigatie">Volgende Vraag
+                </button>
+                <button @click="inleveren" id="inleveren" v-if="allesBeantwoord" class="navigatie">{{inleverText}}
+                </button>
+                <button id="vorige" v-if="(selectedVraag > 0 && !isIngeleverd)" @click="volgendeVraag(-1)"
+                        class="navigatie">Vorige Vraag
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import voortgang from "./components/voortgang";
+    import Voortgang from "./components/Voortgang";
     import VragenView from "./components/VragenView";
     import vragenData from "./data/Vragen";
+    import Uitslag from "./components/Uitslag";
 
     export default {
 
         name: 'App',
         components: {
+            Uitslag,
             VragenView,
-            voortgang,
+            Voortgang,
         },
         data() {
             return {
                 vragenData,
                 vraagNummer: 0,
+                ingeleverd: false,
+                inleverText: "Inleveren",
             }
         },
         computed: {
             selectedVraag() {
-                return {
-                    ...this.vragenData.vragen[this.vraagNummer]
-                }
+                return this.vraagNummer;
+            },
+            allesBeantwoord() {
+                let isBeantwoord = true;
+                this.vragenData.vragen.forEach(vraag => {
+                    if (vraag.selected === 0) {
+                        isBeantwoord = false;
+                    }
+                });
+                return isBeantwoord;
+            },
+            isIngeleverd() {
+                return this.ingeleverd;
             },
         },
-        methods:{
-            volgendeVraag(nummer){
-              this.vraagNummer += nummer;
-              if(this.vraagNummer < 0 || this.vraagNummer >= vragenData.vragen.length){
-                  this.vraagNummer -= nummer;
-              }
+        methods: {
+            volgendeVraag(nummer) {
+                this.vraagNummer += nummer;
+                if (this.vraagNummer < 0 || this.vraagNummer >= vragenData.vragen.length) {
+                    this.vraagNummer -= nummer;
+                }
+            },
+            naarVraag(vraagNummer) {
+                this.vraagNummer = vraagNummer;
+            },
+            inleveren() {
+                this.ingeleverd = !this.ingeleverd;
+                if (this.ingeleverd) {
+                    this.inleverText = "Opnieuw";
+                } else {
+                    this.inleverText = "Inleveren";
+                    this.vragenData.vragen.forEach(vraag => {
+                        vraag.selected = 0;
+                    });
+                    this.vraagNummer = 0;
+                }
             },
         },
     }
@@ -97,7 +132,7 @@
         padding-left: 20px;
         display: grid;
         grid-template-columns: 33.3% 33.3% 33.3%;
-        grid-template-rows: 80px 50px 50px 100px;
+        grid-template-rows: 180px 100px;
     }
 
     #volgende {
