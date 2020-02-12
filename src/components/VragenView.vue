@@ -49,7 +49,7 @@
 
 <style scoped>
     #vragen {
-        grid-row: 1 / 3;
+        grid-row: 1;
         grid-column: 1 / 5;
         display: grid;
         grid-template-columns: 33.3% 33.3% 33.3%;

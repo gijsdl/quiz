@@ -70,7 +70,7 @@
 
 <style scoped>
     #voortgang {
-        grid-row: 1 / 3;
+        grid-row: 1;
         grid-column: 1 / 5;
         margin: 20px auto;
         padding: 0 20px 0 20px;

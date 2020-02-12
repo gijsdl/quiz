@@ -6,13 +6,13 @@
             </header>
             <Voortgang :vraag-id="vraagNummer" @naarVraag="naarVraag($event)"/>
             <hr>
-            <div id="content">
+            <div id="content" :style="isIngeleverd ? 'grid-template-rows: 180px 100px 100px' : 'grid-template-rows: 180px 100px'">
                 <uitslag v-if="isIngeleverd"/>
                 <vragen-view v-if="!isIngeleverd" :vraag-nummer="vraagNummer"/>
                 <button id="volgende" v-if="(selectedVraag < 9 && !isIngeleverd)" @click="volgendeVraag(1)"
                         class="navigatie">Volgende Vraag
                 </button>
-                <button @click="inleveren" id="inleveren" v-if="allesBeantwoord" class="navigatie">{{inleverText}}
+                <button @click="inleveren" id="inleveren" v-if="allesBeantwoord" class="navigatie" :style="isIngeleverd ? 'grid-row:3': 'grid-row:2'">{{inleverText}}
                 </button>
                 <button id="vorige" v-if="(selectedVraag > 0 && !isIngeleverd)" @click="volgendeVraag(-1)"
                         class="navigatie">Vorige Vraag
@@ -132,23 +132,23 @@
         padding-left: 20px;
         display: grid;
         grid-template-columns: 33.3% 33.3% 33.3%;
-        grid-template-rows: 180px 100px;
+        grid-template-rows: 180px 100px 100px;
     }
 
     #volgende {
-        grid-row: 4;
+        grid-row: 2;
         grid-column: 3;
         justify-self: center;
     }
 
     #vorige {
-        grid-row: 4;
+        grid-row: 2;
         grid-column: 1;
         justify-self: center;
     }
 
     #inleveren {
-        grid-row: 4;
+        grid-row: 2;
         grid-column: 2;
         justify-self: center;
     }
