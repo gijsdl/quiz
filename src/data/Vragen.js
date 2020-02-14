@@ -6,7 +6,7 @@ const vragenData = {
             option1: "HTML",
             option2: "CSS",
             option3: "Javascript",
-            option4: "Jquery",
+            option4: "",
             answer: 2,
             selected: 0
         },

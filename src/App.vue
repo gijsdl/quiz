@@ -5,7 +5,7 @@
                 <h1 class="bg-info text-center p-4 rounded mt-2">HTML quiz</h1>
             </header>
 <!--            {{vragenData}}-->
-            <Voortgang :vraag-id="vraagNummer" :vragen="vragen" @naarVraag="naarVraag($event)"/>
+            <Voortgang :vraag-id="vraagNummer" :vragen="vragenData" @naarVraag="naarVraag($event)"/>
             <hr class="border">
             <b-container>
                 <uitslag v-if="isIngeleverd" :vragen-data="vragenData"/>
@@ -21,7 +21,7 @@
                         </b-button>
                     </b-col>
                     <b-col class="text-center">
-                        <b-button pill variant="primary" v-if="(selectedVraag < 9 && !isIngeleverd)"
+                        <b-button pill variant="primary" v-if="(selectedVraag < (vragenData.length - 1) && !isIngeleverd)"
                                   @click="volgendeVraag(1)">Volgende Vraag
                         </b-button>
                     </b-col>
@@ -45,14 +45,14 @@
             VragenView,
             Voortgang,
         },
-        async mounted() {
-            const axios = require('axios');
-
-// Make a request for a user with a given ID
-           await axios
-                .get('http://localhost:8000/news')
-                .then(response => (this.vragenData=response.data));
-            // console.log(this.vragenData);
+        beforeCreate() {
+            fetch('http://localhost:8000/vragen')
+                .then((response)=> {
+                   return response.json();
+                })
+            .then((myJson) => {
+                this.vragenData = myJson;
+            });
         },
         data() {
             return {
@@ -63,9 +63,6 @@
             }
         },
         computed: {
-            vragen(){
-                return this.vragenData;
-            },
             selectedVraag() {
                 return this.vraagNummer;
             },
@@ -84,7 +81,6 @@
         },
         methods: {
             volgendeVraag(nummer) {
-                this.getGet();
                 this.vraagNummer += nummer;
                 if (this.vraagNummer < 0 || this.vraagNummer >= this.vragenData.length) {
                     this.vraagNummer -= nummer;
@@ -105,9 +101,6 @@
                     this.vraagNummer = 0;
                 }
             },
-            getGet() {
-
-            }
         },
     }
 </script>
