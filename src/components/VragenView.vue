@@ -37,31 +37,26 @@
 </template>
 
 <script>
-    import vragenData from "../data/Vragen";
 
     export default {
         name: "vragen",
-        data() {
-            return {
-                vragenData,
-            }
-        },
         props: {
             vraagNummer: {
                 type: Number,
-            }
+            },
+            vragenData: null
         },
         computed: {
             vraag() {
                 return {
-                    ...this.vragenData.vragen[this.vraagNummer]
+                    ...this.vragenData[this.vraagNummer]
                 }
             },
 
         },
         methods: {
             selectAntwoord(option) {
-                this.vragenData.vragen[this.vraagNummer].selected = option;
+                this.vragenData[this.vraagNummer].selected = option;
             },
         }
     }

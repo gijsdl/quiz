@@ -11,7 +11,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="vraag in vragenData.vragen" :key="vraag.id"
+            <tr v-for="vraag in vragenData" :key="vraag.id"
                 v-bind:class="{'bg-success': checkCorrectCollor(vraag.selected, vraag.answer),'bg-danger': !checkCorrectCollor(vraag.selected, vraag.answer)}">
                 <td>{{vraag.id}}</td>
                 <td>{{vraag.question}}</td>
@@ -25,14 +25,11 @@
 </template>
 
 <script>
-    import vragenData from "../data/Vragen";
 
     export default {
         name: "Uitslag",
-        data() {
-            return {
-                vragenData
-            }
+        props:{
+            vragenData: null,
         },
         methods: {
             getAntwoord(vraag, optie) {

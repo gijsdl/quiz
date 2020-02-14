@@ -4,11 +4,12 @@
             <header>
                 <h1 class="bg-info text-center p-4 rounded mt-2">HTML quiz</h1>
             </header>
-            <Voortgang :vraag-id="vraagNummer" @naarVraag="naarVraag($event)"/>
+<!--            {{vragenData}}-->
+            <Voortgang :vraag-id="vraagNummer" :vragen="vragen" @naarVraag="naarVraag($event)"/>
             <hr class="border">
             <b-container>
-                <uitslag v-if="isIngeleverd"/>
-                <vragen-view v-if="!isIngeleverd" :vraag-nummer="vraagNummer"/>
+                <uitslag v-if="isIngeleverd" :vragen-data="vragenData"/>
+                <vragen-view v-if="!isIngeleverd" :vraag-nummer="vraagNummer" :vragen-data="vragenData"/>
                 <b-row class="mt-3">
                     <b-col class="text-center">
                         <b-button pill variant="primary" v-if="(selectedVraag > 0 && !isIngeleverd)"
@@ -33,7 +34,7 @@
 <script>
     import Voortgang from "./components/Voortgang";
     import VragenView from "./components/VragenView";
-    import vragenData from "./data/Vragen";
+
     import Uitslag from "./components/Uitslag";
 
     export default {
@@ -44,22 +45,34 @@
             VragenView,
             Voortgang,
         },
+        async mounted() {
+            const axios = require('axios');
+
+// Make a request for a user with a given ID
+           await axios
+                .get('http://localhost:8000/news')
+                .then(response => (this.vragenData=response.data));
+            // console.log(this.vragenData);
+        },
         data() {
             return {
-                vragenData,
+                vragenData: null,
                 vraagNummer: 0,
                 ingeleverd: false,
                 inleverText: "Inleveren",
             }
         },
         computed: {
+            vragen(){
+                return this.vragenData;
+            },
             selectedVraag() {
                 return this.vraagNummer;
             },
             allesBeantwoord() {
                 let isBeantwoord = true;
-                this.vragenData.vragen.forEach(vraag => {
-                    if (vraag.selected === 0) {
+                this.vragenData.forEach(vraag => {
+                    if (vraag.selected === null) {
                         isBeantwoord = false;
                     }
                 });
@@ -73,7 +86,7 @@
             volgendeVraag(nummer) {
                 this.getGet();
                 this.vraagNummer += nummer;
-                if (this.vraagNummer < 0 || this.vraagNummer >= vragenData.vragen.length) {
+                if (this.vraagNummer < 0 || this.vraagNummer >= this.vragenData.length) {
                     this.vraagNummer -= nummer;
                 }
             },
@@ -86,19 +99,14 @@
                     this.inleverText = "Opnieuw";
                 } else {
                     this.inleverText = "Inleveren";
-                    this.vragenData.vragen.forEach(vraag => {
+                    this.vragenData.forEach(vraag => {
                         vraag.selected = 0;
                     });
                     this.vraagNummer = 0;
                 }
             },
             getGet() {
-                const axios = require('axios');
 
-// Make a request for a user with a given ID
-                axios
-                    .get('http://localhost:8000/news')
-                    .then(response => (console.log(response.data)))
             }
         },
     }
