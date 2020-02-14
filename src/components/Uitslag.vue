@@ -39,16 +39,12 @@
                 console.log(optie)
                 switch (optie) {
                     case 1 :
-                        console.log(1);
                         return vraag.option1;
                     case 2 :
-                        console.log(2);
                         return vraag.option2;
                     case 3 :
-                        console.log(3);
                         return vraag.option3;
                     case 4 :
-                        console.log(4);
                         return vraag.option4;
                     default:
                         return null;

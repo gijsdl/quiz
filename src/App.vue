@@ -71,6 +71,7 @@
         },
         methods: {
             volgendeVraag(nummer) {
+                this.getGet();
                 this.vraagNummer += nummer;
                 if (this.vraagNummer < 0 || this.vraagNummer >= vragenData.vragen.length) {
                     this.vraagNummer -= nummer;
@@ -91,6 +92,14 @@
                     this.vraagNummer = 0;
                 }
             },
+            getGet() {
+                const axios = require('axios');
+
+// Make a request for a user with a given ID
+                axios
+                    .get('http://localhost:8000/news')
+                    .then(response => (console.log(response.data)))
+            }
         },
     }
 </script>
@@ -120,8 +129,6 @@
         box-shadow: 5px 7px 5px 5px rgba(0, 26, 51, 0.5);
         padding: 2px 50px 50px 50px;
     }
-
-
 
 
     html {
