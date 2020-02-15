@@ -1,9 +1,9 @@
 <template>
     <b-row class="mt-4">
-        <b-col class="text-center" v-for="(vraag) in vragen" :key="vraag.id">
-            <b-button pill variant="outline-primary" @click="naarVraag(vraag.id)"
-                    v-bind:class="{'active': checkVraagNummer(vraag.id), 'btn-outline-success':  vraag.selected !== null}">
-                {{vraag.id}}
+        <b-col class="text-center" v-for="(vraag, index) in vragen" :key="index">
+            <b-button pill variant="outline-primary" @click="naarVraag(index)"
+                    v-bind:class="{'active': checkVraagNummer(index), 'btn-outline-success':  vraag.selected !== null}">
+                {{index+1}}
             </b-button>
         </b-col>
     </b-row>
@@ -22,10 +22,10 @@
         methods: {
             checkVraagNummer(nummer) {
                 // console.log(this.vragen);
-                return this.vragen[this.vraagId].id === nummer;
+                return this.vraagId === nummer;
             },
             naarVraag(vraagNummer) {
-                this.$emit('naarVraag', (vraagNummer - 1))
+                this.$emit('naarVraag', (vraagNummer))
             }
         },
     }

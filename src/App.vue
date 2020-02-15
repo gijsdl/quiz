@@ -26,6 +26,7 @@
                         </b-button>
                     </b-col>
                 </b-row>
+                <resultaten/>
             </b-container>
         </div>
     </div>
@@ -36,11 +37,13 @@
     import VragenView from "./components/VragenView";
 
     import Uitslag from "./components/Uitslag";
+    import Resultaten from "./components/resultaten";
 
     export default {
 
         name: 'App',
         components: {
+            Resultaten,
             Uitslag,
             VragenView,
             Voortgang,
@@ -95,11 +98,21 @@
                     this.inleverText = "Opnieuw";
                 } else {
                     this.inleverText = "Inleveren";
-                    this.vragenData.forEach(vraag => {
-                        vraag.selected = 0;
-                    });
-                    this.vraagNummer = 0;
+                   this.reset()
                 }
+            },
+            reset(){
+                this.vragenData.forEach(vraag => {
+                    vraag.selected = null;
+                });
+                this.vraagNummer = 0;
+                fetch('http://localhost:8000/vragen')
+                    .then((response)=> {
+                        return response.json();
+                    })
+                    .then((myJson) => {
+                        this.vragenData = myJson;
+                    });
             },
         },
     }
