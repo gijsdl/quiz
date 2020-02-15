@@ -90,6 +90,7 @@
                     .then((myJson) => {
                         console.log(myJson);
                     });
+                this.$router.push("/history")
             },
         }
     }
