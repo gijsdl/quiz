@@ -46,7 +46,7 @@
                 })
                 .then((myJson) => {
                     this.data = myJson;
-                    this.questions = [this.data.question1, this.data.question2, this.data.question3, this.data.question4, this.data.question5, this.data.question6];
+                    this.questions = this.data.questions
                 });
 
         },

@@ -2,42 +2,17 @@
     <div>
         <b-row>
             <b-col>
-                <table class="table">
+                <table class="table table-responsive">
                     <thead>
                     <th>name</th>
-                    <th>question1</th>
-                    <th>question2</th>
-                    <th>question3</th>
-                    <th>question4</th>
-                    <th>question5</th>
-                    <th>question6</th>
+                    <th :colspan="span">questions</th>
                     </thead>
                     <tbody>
                     <tr v-for="(persoon, index) in data" :key="index">
                         <router-link :to="'/history/details/' + persoon.id"><td>{{persoon.name}}</td></router-link>
-                        <td v-bind:class="{'bg-success': checkCorrectCollor(persoon.question1.selected, persoon.question1.answer),
-                    'bg-danger': !checkCorrectCollor(persoon.question1.selected, persoon.question1.answer)}">
-                            {{persoon.question1.question}}
-                        </td>
-                        <td v-bind:class="{'bg-success': checkCorrectCollor(persoon.question2.selected, persoon.question2.answer),
-                    'bg-danger': !checkCorrectCollor(persoon.question2.selected, persoon.question2.answer)}">
-                            {{persoon.question2.question}}
-                        </td>
-                        <td v-bind:class="{'bg-success': checkCorrectCollor(persoon.question3.selected, persoon.question3.answer),
-                    'bg-danger': !checkCorrectCollor(persoon.question3.selected, persoon.question3.answer)}">
-                            {{persoon.question3.question}}
-                        </td>
-                        <td v-bind:class="{'bg-success': checkCorrectCollor(persoon.question4.selected, persoon.question4.answer),
-                    'bg-danger': !checkCorrectCollor(persoon.question4.selected, persoon.question4.answer)}">
-                            {{persoon.question4.question}}
-                        </td>
-                        <td v-bind:class="{'bg-success': checkCorrectCollor(persoon.question5.selected, persoon.question5.answer),
-                    'bg-danger': !checkCorrectCollor(persoon.question5.selected, persoon.question5.answer)}">
-                            {{persoon.question5.question}}
-                        </td>
-                        <td v-bind:class="{'bg-success': checkCorrectCollor(persoon.question6.selected, persoon.question6.answer),
-                    'bg-danger': !checkCorrectCollor(persoon.question6.selected, persoon.question6.answer)}">
-                            {{persoon.question6.question}}
+                        <td v-for="(question, index) in persoon.questions" :key="index"
+                            v-bind:class="{'bg-success': checkCorrectCollor(question.selected, question.answer),'bg-danger': !checkCorrectCollor(question.selected, question.answer)}">
+                            {{question.question}}
                         </td>
                     </tr>
                     </tbody>
@@ -64,11 +39,22 @@
                 })
                 .then((myJson) => {
                     this.data = myJson;
+                    let span = 0;
+                    this.data.forEach(function(questionArray){
+                        let tempSpan = questionArray.questions.length;
+
+                        if (tempSpan > span){
+
+                            span = tempSpan;
+                        }
+                    });
+                    this.span = span;
                 });
         },
         data() {
             return {
-                data: null
+                data: null,
+                span: 0,
             }
         },
         methods: {
