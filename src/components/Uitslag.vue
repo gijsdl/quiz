@@ -78,7 +78,7 @@
             },
             onSubmit(evt) {
                 evt.preventDefault();
-                console.log(JSON.stringify(this.form));
+                // console.log(JSON.stringify(this.form));
                 // console.log(JSON.stringify(this.vragenData));
                 fetch('http://localhost:8000/post/vragen', {
                     body: JSON.stringify(this.form),

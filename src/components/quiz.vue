@@ -27,6 +27,11 @@
                         <b-button pill variant="primary">history</b-button>
                     </router-link>
                 </b-col>
+                <b-col class="text-center">
+                    <router-link to="/add-question">
+                        <b-button pill variant="primary">add question</b-button>
+                    </router-link>
+                </b-col>
             </b-row>
         </b-container>
     </div>

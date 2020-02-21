@@ -7,6 +7,8 @@ import VueRouter from 'vue-router'
 import resultaten from "./components/resultaten";
 import quiz from "./components/quiz";
 import resultaatDetails from "./components/resultaatDetails";
+import NewQuestion from "./components/NewQuestion";
+import questions from "./components/questions";
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
@@ -22,6 +24,8 @@ const router = new VueRouter({
     {path: '/', component: quiz},
     {path: '/history', component: resultaten},
     {path: '/history/details/:id', component: resultaatDetails},
+    {path: '/questions', component: questions},
+    {path: '/add-question', component: NewQuestion},
   ],
   mode: 'history'
 })
